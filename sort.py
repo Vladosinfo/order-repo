@@ -4,10 +4,7 @@ import shutil
 import glob
 from pathlib import Path
 
-#python sort.py d:/temp/temp/ds/
-
 # Constants
-# MAIN_PATH_SORT = ""
 IMAGES = 'images'
 VIDEOS = 'videos'
 DOCUMENTS = 'documents'
@@ -68,13 +65,7 @@ def rename_file(path, file_name, file_extension):
     os.rename(path+file_name, path+new_fname)
     #print('Symbols of file name isn\'t cyrillic')
     return new_fname
-
-
-# def rename_folder(path, folder_name):
-#     renamed_folder = normalize(folder_name)
-#     os.rename(path+folder_name, path+renamed_folder)
-#     return renamed_folder
-    
+  
 
 def archive_process(main_patn, path, fname):
     unpack_folder = fname.split('.')
@@ -114,12 +105,10 @@ def sort_files(MAIN_PATH_SORT, path, file_name, file_extension):
 def folders_iteration(MAIN_PATH_SORT, path):
     p = Path(path)
     list_files_for_remove = []
-    # for i in p.iterdir():
     for i in p.glob('**/*'):
         except_url = str(i).replace('\\', '/')
         if i.is_dir() and (len(os.listdir(str(i))) == 0):
             i.rmdir()
-            # os.rmdir(str(i))
             continue
 
         if (i.is_file() and except_url.find(MAIN_PATH_SORT+IMAGES) < 0 and except_url.find(MAIN_PATH_SORT+VIDEOS) < 0 
@@ -127,22 +116,13 @@ def folders_iteration(MAIN_PATH_SORT, path):
             and except_url.find(MAIN_PATH_SORT+ARCHIVES) < 0 and except_url.find(MAIN_PATH_SORT+UNKNOWN) < 0):
             file_array = i.name.split('.')
             files_path = str(i.parent)+'\\'
-            folder_path = str(i.parent)+'\\*.*'
-            vvv = glob.glob(folder_path)
             sort_files(MAIN_PATH_SORT, files_path, i.name, file_array[-1])
-            eee = glob.glob(folder_path)
-            if len(glob.glob(folder_path))  == 0:
-            # if len(os.listdir(files_path)) == 0:
-                list_files_for_remove.append(files_path)
-                # os.chdir('../')
-                # # i.replace('../')
-                # os.rmdir(files_path)
-                # # i.parent.rmdir()
-                # #os.chdir('../')
-                # # shutil.rmtree(files_path)
-                # # os.rmdir(files_path)
-                # # continue
 
+            folder_path = str(i.parent)+'\\*.*'
+            if len(glob.glob(folder_path))  == 0:
+                list_files_for_remove.append(files_path)
+
+    # Remove empty folders
     for fold in list_files_for_remove:
         if os.path.exists(fold):
             shutil.rmtree(fold)
@@ -154,7 +134,7 @@ def main(path):
     translate_dict_create()
     folders_iteration(MAIN_PATH_SORT,path)
 
-    # print(result)
+    print(result)
     return result
 
 
