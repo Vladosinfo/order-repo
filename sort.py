@@ -134,10 +134,8 @@ def main(path):
     translate_dict_create()
     folders_iteration(MAIN_PATH_SORT,path)
 
-    print(result)
     return result
 
 
 if __name__ == '__main__':
-    #main(sys.argv[1])
-    main('d:/temp/temp/ds/')
+    main(sys.argv[1])
