@@ -128,14 +128,19 @@ def folders_iteration(MAIN_PATH_SORT, path):
             shutil.rmtree(fold)
 
 
-def main(path):
+def main_process(path):
     MAIN_PATH_SORT = path
-    print(path)
     translate_dict_create()
     folders_iteration(MAIN_PATH_SORT,path)
 
     return result
 
 
+def main():
+    main_process( sys.argv[1])
+
+
 if __name__ == '__main__':
-    main(sys.argv[1])
+    if len(sys.argv) < 2:
+        sys.exit(1)
+    main()
